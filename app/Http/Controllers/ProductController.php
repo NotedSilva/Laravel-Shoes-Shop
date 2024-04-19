@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Model\Product;
+
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -33,12 +34,14 @@ class ProductController extends Controller
         $dadosValidados = $request->validate([
             'nome' => 'string|required',
             'preco' => 'string|required',
-            'drescricao' => 'string|required',
-            'quantidade' => 'number|required'
+            'descricao' => 'string|required',
+            'quantidade' => 'numeric|required'
         ]);
         
+        
         Product::create($dadosValidados);
-        return Redirect::to('welcome');
+        
+        return Redirect::to('product');
     }
 
     /**

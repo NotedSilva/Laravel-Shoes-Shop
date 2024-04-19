@@ -23,11 +23,11 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
                     </ul>
-                    <form class="d-flex m-2">
+                    <form method='get' action="{{route('product.list')}}" class="d-flex m-2">
                         <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                            <i class="bi bi-card-list"></i>
+                            Overview
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">{{count($dadosProduto)}}</span>
                         </button>
                     </form>
                     <form class="d-flex" action="{{route('product.view')}}">

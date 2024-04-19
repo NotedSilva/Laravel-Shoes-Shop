@@ -56,6 +56,16 @@ class ProductController extends Controller
         return view('index', ['dadosProduto' => $dadosProdutos]);
     }
 
+    public function listaProdutos(Request $request)
+    {
+        $dadosProdutos = Product::query();
+        $dadosProdutos->when($request->id, function($query, $valor){
+            $query->where('id', 'like', '%'.$valor.'%');
+        });
+        $dadosProdutos = $dadosProdutos->get();
+        return view('ListaItens', ['dadosProduto' => $dadosProdutos]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

@@ -69,7 +69,7 @@
                                 </div>
                                 <!-- Product actions-->
                                 <div class="card-footer pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{route('product.details', $dadoProduto->id)}}">View options</a></div>
                                 </div>
                                 <div class="card-footer pt-0 border-top-0 bg-transparent">
                                     <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{route('product.edit', $dadoProduto->id)}}">Editar</a></div>

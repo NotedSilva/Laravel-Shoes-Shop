@@ -13,7 +13,7 @@
   </div>
   <div class="col-md-6">
     <label for="inputPreco" class="form-label">Preço</label>
-    <input type="number" name="preco"  class="form-control" id="inputPreco" required>
+    <input type="number" step="0.01" name="preco"  class="form-control" id="inputPreco" required>
   </div>
   <div class="col-12">
     <label for="inputDescricao" class="form-label">Descrição</label>

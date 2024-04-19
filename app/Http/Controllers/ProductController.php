@@ -34,35 +34,34 @@ class ProductController extends Controller
         
         Product::create($dadosValidados);
         
-        return Redirect::to('product');
+        return redirect()->back();
     }
     
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-    
-    
-    public function listarProdutos(Request $request)
+    private function buscarProduto(Request $request, string $parametro)
     {
         $dadosProdutos = Product::query();
-        $dadosProdutos->when($request->id, function($query, $valor){
-            $query->where('id', 'like', '%'.$valor.'%');
+        $dadosProdutos->when($request->$parametro, function($query, $valor) use ($parametro){
+            $query->where( $parametro , 'like', '%'.$valor.'%');
         });
         $dadosProdutos = $dadosProdutos->get();
+        return $dadosProdutos;
+    }
+    
+    public function DetalhesProdutos(Request $request)
+    {
+        $dadosProdutos = $this->buscarProduto($request, 'id');
+        return view('Detalhes', ['dadosProduto' => $dadosProdutos]);
+    }
+
+    public function listarProdutos(Request $request)
+    {
+        $dadosProdutos = $this->buscarProduto($request, 'id');
         return view('index', ['dadosProduto' => $dadosProdutos]);
     }
 
-    public function listaProdutos(Request $request)
+    public function listaProdutosPorNome(Request $request)
     {
-        $dadosProdutos = Product::query();
-        $dadosProdutos->when($request->id, function($query, $valor){
-            $query->where('id', 'like', '%'.$valor.'%');
-        });
-        $dadosProdutos = $dadosProdutos->get();
+        $dadosProdutos = $this->buscarProduto($request, 'nome');
         return view('ListaItens', ['dadosProduto' => $dadosProdutos]);
     }
 
@@ -96,6 +95,6 @@ class ProductController extends Controller
     public function destroy(Product $id)
     {
         $id->delete();
-        return Redirect::to('/');
+        return redirect()->back();
     }
 }

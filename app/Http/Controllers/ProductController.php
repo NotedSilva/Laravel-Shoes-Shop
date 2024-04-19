@@ -18,14 +18,7 @@ class ProductController extends Controller
         return view('ModalAdicionar');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -43,7 +36,7 @@ class ProductController extends Controller
         
         return Redirect::to('product');
     }
-
+    
     /**
      * Display the specified resource.
      */
@@ -51,28 +44,48 @@ class ProductController extends Controller
     {
         //
     }
+    
+    
+    public function listarProdutos(Request $request)
+    {
+        $dadosProdutos = Product::query();
+        $dadosProdutos->when($request->id, function($query, $valor){
+            $query->where('id', 'like', '%'.$valor.'%');
+        });
+        $dadosProdutos = $dadosProdutos->get();
+        return view('index', ['dadosProduto' => $dadosProdutos]);
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $id)
     {
-        //
+        return view('ModalAtualizar', ['dadosProduto' => $id]);
     }
-
+    
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $id)
     {
-        //
+        $dadosValidados = $request->validate([
+            'nome' => 'string|required',
+            'preco' => 'string|required',
+            'descricao' => 'string|required',
+            'quantidade' => 'numeric|required'
+        ]);
+        $id->fill($dadosValidados);
+        $id->save();
+        return Redirect::to('/');
     }
-
+    
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $id)
     {
-        //
+        $id->delete();
+        return Redirect::to('/');
     }
 }

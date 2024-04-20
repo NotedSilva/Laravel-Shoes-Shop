@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Model\Product;
+
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Arr;
 
 class ProductController extends Controller
 {
@@ -17,59 +19,116 @@ class ProductController extends Controller
         return view('ModalAdicionar');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $dadosValidados = $request->validate([
-            'nome' => 'string|required',
-            'preco' => 'string|required',
-            'drescricao' => 'string|required',
-            'quantidade' => 'number|required'
-        ]);
+        if($request->hasFile('img')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('img')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('img')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore= $filename.'_'.time().'.'.$extension;
+            // Upload Image
+            $path = $request->file('img')->storeAs('public/imagens', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.png';
+        }
+        
+
+        $dadosValidados = [
+            'nome' =>  $request->nome,
+            'preco' => $request->preco,
+            'descricao' => $request->descricao,
+            'quantidade' => $request->quantidade,
+            'img' => $fileNameToStore
+        ];
         
         Product::create($dadosValidados);
-        return Redirect::to('welcome');
+        
+        return redirect()->back();
+    }
+    
+    private function buscarProduto(Request $request, string $parametro)
+    {
+        $dadosProdutos = Product::query();
+        $dadosProdutos->when($request->$parametro, function($query, $valor) use ($parametro){
+            $query->where($parametro , 'like', '%'.$valor.'%');
+        });
+        $dadosProdutos = $dadosProdutos->get();
+        return $dadosProdutos;
+    }
+    
+    public function DetalhesProdutos(Request $request)
+    {
+        $dadosProdutos = $this->buscarProduto($request, 'id');
+        return view('Detalhes', ['dadosProduto' => $dadosProdutos]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function listarProdutos(Request $request)
     {
-        //
+        $dadosProdutos = $this->buscarProduto($request, 'id');
+        return view('index', ['dadosProduto' => $dadosProdutos]);
+    }
+
+    public function listaProdutosPorNome(Request $request)
+    {
+        $dadosProdutos = $this->buscarProduto($request, 'nome');
+        return view('ListaItens', ['dadosProduto' => $dadosProdutos]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $id)
     {
-        //
+        return view('ModalAtualizar', ['dadosProduto' => $id]);
     }
-
+    
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $id)
     {
-        //
-    }
+        if($request->hasFile('img')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('img')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('img')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore= $filename.'_'.time().'.'.$extension;
+            // Upload Image
+            $path = $request->file('img')->storeAs('public/imagens', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.png';
+        }
 
+        $dadosValidados = [
+            'nome' =>  $request->nome,
+            'preco' => $request->preco,
+            'descricao' => $request->descricao,
+            'quantidade' => $request->quantidade,
+            'img' => $fileNameToStore
+        ];
+        
+        $id->fill($dadosValidados);
+        $id->save();
+        return Redirect::to('/');
+    }
+    
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $id)
     {
-        //
+        $id->delete();
+        return redirect()->back();
     }
 }

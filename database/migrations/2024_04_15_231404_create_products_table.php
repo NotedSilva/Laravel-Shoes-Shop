@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('preco', 8, 2);
             $table->text('descricao');
             $table->integer('quantidade');
+            $table->string('img')->nullable();
             $table->timestamps();
         });
     }

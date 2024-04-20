@@ -12,7 +12,8 @@ class Product extends Model
         'nome',
         'preco',
         'descricao',
-        'quantidade'
+        'quantidade',
+        'img'
     ]; 
     public function NF(): BelongsTo
     {

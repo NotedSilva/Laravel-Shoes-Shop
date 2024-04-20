@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Arr;
 
 class ProductController extends Controller
 {
@@ -24,13 +25,29 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $dadosValidados = $request->validate([
-            'nome' => 'string|required',
-            'preco' => 'string|required',
-            'descricao' => 'string|required',
-            'quantidade' => 'numeric|required'
-        ]);
+        if($request->hasFile('img')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('img')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('img')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore= $filename.'_'.time().'.'.$extension;
+            // Upload Image
+            $path = $request->file('img')->storeAs('public/imagens', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.png';
+        }
         
+
+        $dadosValidados = [
+            'nome' =>  $request->nome,
+            'preco' => $request->preco,
+            'descricao' => $request->descricao,
+            'quantidade' => $request->quantidade,
+            'img' => $fileNameToStore
+        ];
         
         Product::create($dadosValidados);
         
@@ -41,7 +58,7 @@ class ProductController extends Controller
     {
         $dadosProdutos = Product::query();
         $dadosProdutos->when($request->$parametro, function($query, $valor) use ($parametro){
-            $query->where( $parametro , 'like', '%'.$valor.'%');
+            $query->where($parametro , 'like', '%'.$valor.'%');
         });
         $dadosProdutos = $dadosProdutos->get();
         return $dadosProdutos;
@@ -78,12 +95,29 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $id)
     {
-        $dadosValidados = $request->validate([
-            'nome' => 'string|required',
-            'preco' => 'string|required',
-            'descricao' => 'string|required',
-            'quantidade' => 'numeric|required'
-        ]);
+        if($request->hasFile('img')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('img')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('img')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore= $filename.'_'.time().'.'.$extension;
+            // Upload Image
+            $path = $request->file('img')->storeAs('public/imagens', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.png';
+        }
+
+        $dadosValidados = [
+            'nome' =>  $request->nome,
+            'preco' => $request->preco,
+            'descricao' => $request->descricao,
+            'quantidade' => $request->quantidade,
+            'img' => $fileNameToStore
+        ];
+        
         $id->fill($dadosValidados);
         $id->save();
         return Redirect::to('/');

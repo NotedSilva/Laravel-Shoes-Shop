@@ -1,5 +1,3 @@
-![foto-home-adm](https://github.com/NotedSilva/Laravel-Shoes-Shop/assets/119432493/da02698d-c1df-4021-9c25-27fa17fba811)
-
 ![foto-home-adm-tenis](https://github.com/NotedSilva/Laravel-Shoes-Shop/assets/119432493/5b7f0cbd-4614-41a3-b968-7005f2abb1bc)
 
 ![foto-listagem-adm](https://github.com/NotedSilva/Laravel-Shoes-Shop/assets/119432493/60993a30-d5df-49c3-8fda-f1bb28a153ef)

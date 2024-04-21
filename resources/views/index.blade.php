@@ -59,7 +59,7 @@
                             <div class="card h-100">
                                 <!-- Product image-->
                                 
-                                <img class="card-img-top" src="storage/imagens/{{$dadoProduto->img}}" alt="..." />
+                                <img class="card-img-top" src="{{ asset('storage/imagens/' . $dadoProduto->img) }}" alt="..." />
                                 <!-- Product details-->
                                 <div class="card-body p-4">
                                     <div class="text-center">

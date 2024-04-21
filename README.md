@@ -32,18 +32,3 @@ Os usuários têm a capacidade de:
 
 - **Visualizar** as informações dos produtos cadastrados.
 
-## Instalação
-
-Descreva aqui os passos para instalar e configurar o projeto.
-
-## Uso
-
-Descreva aqui como usar o projeto, como acessar as funcionalidades, etc.
-
-## Contribuição
-
-Se você deseja contribuir para este projeto, por favor...
-
-## Licença
-
-Inclua aqui informações sobre a licença do projeto.

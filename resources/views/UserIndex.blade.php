@@ -24,20 +24,6 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     </ul>
-                    <form method='get' action="{{route('product.list')}}" class="d-flex m-2">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi bi-card-list"></i>
-                            Overview
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">{{count($dadosProduto)}}</span>
-                        </button>
-                    </form>
-                    <form class="d-flex" action="{{route('product.view')}}">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi bi-plus-circle"></i>   
-                            Add
-                            <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
-                        </button>
-                    </form>
                     <form method="POST" action="{{ route('logout') }}" class="d-flex m-2">
                             @csrf
                             <x-dropdown-link class="btn btn-outline-dark" :href="route('logout')"
@@ -81,20 +67,6 @@
                                 <!-- Product actions-->
                                 <div class="card-footer pt-0 border-top-0 bg-transparent">
                                     <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{route('product.details', $dadoProduto->id)}}">View options</a></div>
-                                </div>
-                                <div class="card-footer pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{route('product.edit', $dadoProduto->id)}}">Editar</a></div>
-                                </div>
-                                <div class="card-footer pt-0 border-top-0 bg-transparent">
-                                    <form action="{{route('product.destroy', $dadoProduto->id)}}" method="post">
-                                    @method('delete')
-                                    @csrf
-                                        <div class="text-right">
-                                            <button class="btn btn-outline-danger mt-auto fs-6" type='submit'>
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>

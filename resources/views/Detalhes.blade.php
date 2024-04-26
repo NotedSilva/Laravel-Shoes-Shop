@@ -27,7 +27,7 @@
     </nav>
     <!-- Product section-->
     <section class="py-5">
-        <form class="row m-2" action="{{route('dashboard')}}">
+        <form class="row m-2" action="{{Auth::user()->funcao == 'admin' ? route('admin.dashboard') : route('dashboard')}}">
             <div class="col-12">
                 <button type='submit' class="btn btn-primary">Voltar</button>
             </div>

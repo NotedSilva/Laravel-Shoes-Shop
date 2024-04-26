@@ -24,13 +24,6 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <div class="mt-4">
-            <select name="funcao">
-                <option value="usuario">Usuario</option>
-                <option value="admin">Admin</option>
-            </select>
-        </div>
-
         <!-- Remember Me -->
         <div class="block mt-4">
             <label for="remember_me" class="inline-flex items-center">

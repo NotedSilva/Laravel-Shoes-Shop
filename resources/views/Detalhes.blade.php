@@ -12,7 +12,7 @@
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="../css/detalhes.css" rel="stylesheet" />
+    <link href="{{Auth::user()->funcao == 'admin' ? '../../css/detalhes.css' : '../css/detalhes.css'}}" rel="stylesheet" />
 </head>
 
 <body>
@@ -27,7 +27,7 @@
     </nav>
     <!-- Product section-->
     <section class="py-5">
-        <form class="row m-2" action="{{route('dashboard')}}">
+        <form class="row m-2" action="{{Auth::user()->funcao == 'admin' ? route('admin.dashboard') : route('dashboard')}}">
             <div class="col-12">
                 <button type='submit' class="btn btn-primary">Voltar</button>
             </div>
@@ -37,7 +37,7 @@
             <div class="row gx-4 gx-lg-5 align-items-center">
                 @foreach($dadosProduto as $dadoProduto)
 
-                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="../storage/imagens/{{$dadoProduto->img}}" alt="..." /></div>
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ Auth::user()->funcao == 'admin' ? '../../storage/imagens/'.$dadoProduto->img : '../storage/imagens/'.$dadoProduto->img }}"  alt="..." /></div>
                 <div class="col-md-6">
                     <h1 class="display-5 fw-bolder">{{Str::of($dadoProduto->nome)->limit(12)}}</h1>
                     <div class="fs-5 mb-2">
@@ -60,7 +60,7 @@
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script src="../js/detalhes.js"></script>
+    <script src="{{Auth::user()->funcao == 'admin' ? '../../js/detalhes.js' : '../js/detalhes.js'}}"></script>
 </body>
 
 </html>

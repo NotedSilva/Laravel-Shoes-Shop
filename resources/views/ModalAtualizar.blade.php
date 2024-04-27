@@ -1,6 +1,6 @@
 @extends('../layouts/layout')
 @section('content')
-<form class="row m-2" action="{{route('dashboard')}}">
+<form class="row m-2" action="{{Auth::user()->funcao == 'admin' ? route('admin.dashboard') : route('dashboard')}}">
     <div class="col-12">
       <button type='submit' class="btn btn-primary">Voltar</button>
     </div>
@@ -29,14 +29,14 @@
     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 ">
         <div class="col mb-5">
           <div class="card h-100">
-            <img class="card-img-top" src="../storage/imagens/{{$dadosProduto->img}}" alt="..." />
+            <img class="card-img-top" src="{{ Auth::user()->funcao == 'admin' ? '../../storage/imagens/'.$dadosProduto->img : '../storage/imagens/'.$dadosProduto->img }}" alt="..." />
           </div>
         </div>
     </div>
   </div>
   <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
   <div class="custom-file">
-    <input type="file" class="custom-file-input" name="img" value="" id="input_img_itens">
+    <input type="file" class="custom-file-input" name="img" value="{{old('img', $dadosProduto->img)}}" id="input_img_itens">
     <label class="custom-file-label" for="input_img_itens">Escolha o arquivo</label>
   </div>
   <div class="col-12">

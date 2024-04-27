@@ -54,7 +54,7 @@ class ProductController extends Controller
         return redirect()->back();
     }
     
-    private function buscarProduto(Request $request, string $parametro)
+    public function buscarProduto(Request $request, string $parametro)
     {
         $dadosProdutos = Product::query();
         $dadosProdutos->when($request->$parametro, function($query, $valor) use ($parametro){

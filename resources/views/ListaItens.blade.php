@@ -1,7 +1,7 @@
 @extends('../layouts/layout')
 @section('content')
 
-<form class="row m-2" action="{{route('dashboard')}}">
+<form class="row m-2" action="{{Auth::user()->funcao == 'admin' ? route('admin.dashboard') : route('dashboard')}}">
     <div class="col-12">
       <button type='submit' class="btn btn-primary">Voltar</button>
     </div>
